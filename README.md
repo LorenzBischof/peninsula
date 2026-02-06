@@ -1,6 +1,6 @@
 # Peninsula
 
-A lightweight Zsh hook that sandboxes directly executed scripts and binaries.
+A lightweight shell hook that sandboxes directly executed scripts and binaries.
 
 ## What It Does
 
@@ -10,17 +10,24 @@ Peninsula intercepts local script and binary executions (anything with a `/` in 
 
 ### Option 1: Source directly in your shell
 
-```bash
+For Zsh:
+```zsh
 source /path/to/peninsula/devenv-hook.zsh
+```
+
+For Bash:
+```bash
+source /path/to/peninsula/devenv-hook.bash
 ```
 
 ### Option 2: Launch an interactive shell
 
 ```bash
-./devenv-shell.sh
+./devenv-shell.sh bash  # For bash
+./devenv-shell.sh zsh   # For zsh
 ```
 
-This creates a new Zsh session with `DEVENV_ROOT` set to your current directory and the hook pre-loaded.
+This creates a new shell session with `DEVENV_ROOT` set to your current directory and the hook pre-loaded.
 
 ## Features
 
@@ -28,11 +35,15 @@ This creates a new Zsh session with `DEVENV_ROOT` set to your current directory 
 - **Smart detection**: Only affects commands containing paths (e.g., `./script.sh`, `bin/tool`)
 - **Shell-aware**: Respects environment variables, pipes, redirects, and command chaining
 - **Reversible**: Disable anytime with `_devenv_unhook` function
-- **Zero configuration**: Works out of the box with any Zsh environment
+- **Zero configuration**: Works out of the box with Zsh or Bash
 
 ## How It Works
 
-Peninsula uses a Zsh Line Editor (ZLE) widget to intercept commands before execution. When you run a local script or binary, Peninsula wraps it in a sandboxing context scoped to your `$DEVENV_ROOT`.
+Peninsula uses shell-specific mechanisms to intercept commands before execution:
+- **Zsh**: Uses ZLE (Zsh Line Editor) widgets to intercept the accept-line action
+- **Bash**: Uses readline bindings with `bind -x` to intercept command execution
+
+When you run a local script or binary, Peninsula wraps it in a sandboxing context scoped to your `$DEVENV_ROOT`.
 
 ## Example
 
@@ -44,7 +55,7 @@ Test script executed successfully!
 
 ## Requirements
 
-- Zsh shell
+- Zsh or Bash shell
 
 ## Credits
 
