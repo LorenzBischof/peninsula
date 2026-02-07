@@ -4,7 +4,7 @@
 #
 # Add this to your ~/.zshrc:
 #
-#   source /path/to/devenv-hook.zsh
+#   source /path/to/peninsula-hook.zsh
 #
 # # Goal
 #
@@ -18,16 +18,16 @@
 # - For executables under $DEVENV_ROOT, prepend echo to show the command.
 
 # Ensure clean state if re-sourced.
-if functions _devenv_unhook >/dev/null; then
-    _devenv_unhook
+if functions _peninsula_unhook >/dev/null; then
+    _peninsula_unhook
 fi
 
-function _devenv_accept_line() {
+function _peninsula_accept_line() {
     emulate -L zsh
 
     # Skip if DEVENV_ROOT is not set.
     if [[ -z "$DEVENV_ROOT" ]]; then
-        zle _devenv_orig_accept_line
+        zle _peninsula_orig_accept_line
         return
     fi
 
@@ -74,22 +74,22 @@ function _devenv_accept_line() {
         BUFFER="${new_buffer_words}"
     fi
 
-    zle _devenv_orig_accept_line
+    zle _peninsula_orig_accept_line
 }
 
-# User helper to unhook DevEnv integration.
-function _devenv_unhook() {
+# User helper to unhook Peninsula integration.
+function _peninsula_unhook() {
     emulate -L zsh
 
-    zle -A _devenv_orig_accept_line accept-line
-    zle -D _devenv_orig_accept_line
+    zle -A _peninsula_orig_accept_line accept-line
+    zle -D _peninsula_orig_accept_line
 
-    unfunction _devenv_accept_line 2>/dev/null || :
-    unfunction _devenv_unhook 2>/dev/null || :
+    unfunction _peninsula_accept_line 2>/dev/null || :
+    unfunction _peninsula_unhook 2>/dev/null || :
 }
 
 # Wrap the accept-line widget to intercept commands.
-if ! zle -l _devenv_orig_accept_line; then
-    zle -A accept-line _devenv_orig_accept_line
+if ! zle -l _peninsula_orig_accept_line; then
+    zle -A accept-line _peninsula_orig_accept_line
 fi
-zle -N accept-line _devenv_accept_line
+zle -N accept-line _peninsula_accept_line

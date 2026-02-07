@@ -5,7 +5,7 @@ show_help() {
     cat <<EOF
 Usage: $0 <shell>
 
-Start an interactive shell with peninsula devenv-hook loaded.
+Start an interactive shell with peninsula hook loaded.
 
 Arguments:
   shell    The shell to use (bash or zsh)
@@ -47,8 +47,8 @@ if [[ "$SHELL_TO_USE" == "zsh" ]]; then
     trap "rm -rf '$TEMP_ZDOTDIR'" EXIT
 
     cat > "$TEMP_ZDOTDIR/.zshrc" <<'ZSHRC'
-# Source the devenv hook first
-source "$DEVENV_ROOT/devenv-hook.zsh"
+# Source the peninsula hook first
+source "$DEVENV_ROOT/peninsula-hook.zsh"
 
 # Then source the user's regular .zshrc if it exists
 [[ -f ~/.zshrc ]] && source ~/.zshrc
@@ -62,8 +62,8 @@ else
     trap "rm -f '$TEMP_BASHRC'" EXIT
 
     cat > "$TEMP_BASHRC" <<'BASHRC'
-# Source the devenv hook first
-source "$DEVENV_ROOT/devenv-hook.bash"
+# Source the peninsula hook first
+source "$DEVENV_ROOT/peninsula-hook.bash"
 
 # Then source the user's regular .bashrc if it exists
 [[ -f ~/.bashrc ]] && source ~/.bashrc

@@ -12,19 +12,19 @@ Peninsula intercepts local script and binary executions (anything with a `/` in 
 
 For Zsh:
 ```zsh
-source /path/to/peninsula/devenv-hook.zsh
+source /path/to/peninsula/peninsula-hook.zsh
 ```
 
 For Bash:
 ```bash
-source /path/to/peninsula/devenv-hook.bash
+source /path/to/peninsula/peninsula-hook.bash
 ```
 
 ### Option 2: Launch an interactive shell
 
 ```bash
-./devenv-shell.sh bash  # For bash
-./devenv-shell.sh zsh   # For zsh
+./test-shell.sh bash  # For bash
+./test-shell.sh zsh   # For zsh
 ```
 
 This creates a new shell session with `DEVENV_ROOT` set to your current directory and the hook pre-loaded.
@@ -34,7 +34,6 @@ This creates a new shell session with `DEVENV_ROOT` set to your current director
 - **Automatic sandboxing**: Local scripts and binaries are automatically sandboxed
 - **Smart detection**: Only affects commands containing paths (e.g., `./script.sh`, `bin/tool`)
 - **Shell-aware**: Respects environment variables, pipes, redirects, and command chaining
-- **Reversible**: Disable anytime with `_devenv_unhook` function
 - **Zero configuration**: Works out of the box with Zsh or Bash
 
 ## How It Works

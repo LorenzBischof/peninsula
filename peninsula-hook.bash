@@ -4,7 +4,7 @@
 #
 # Add this to your ~/.bashrc:
 #
-#   source /path/to/devenv-hook.bash
+#   source /path/to/peninsula-hook.bash
 #
 # # Goal
 #
@@ -18,18 +18,18 @@
 # - For executables under $DEVENV_ROOT, prepend echo to show the command.
 
 # Ensure clean state if re-sourced.
-if declare -F _devenv_unhook >/dev/null; then
-    _devenv_unhook
+if declare -F _peninsula_unhook >/dev/null; then
+    _peninsula_unhook
 fi
 
-function _devenv_accept_line() {
+function _peninsula_accept_line() {
     # Skip if DEVENV_ROOT is not set.
     if [[ -z "$DEVENV_ROOT" ]]; then
         return
     fi
 
     # Skip if already processing (prevent infinite loop)
-    if [[ "$_devenv_processing" == "1" ]]; then
+    if [[ "$_peninsula_processing" == "1" ]]; then
         return
     fi
 
@@ -81,25 +81,25 @@ function _devenv_accept_line() {
     done
 
     if (( modified )); then
-        _devenv_processing=1
+        _peninsula_processing=1
         READLINE_LINE="${new_buffer_words[*]}"
         READLINE_POINT=${#READLINE_LINE}
-        _devenv_processing=0
+        _peninsula_processing=0
     fi
 }
 
-# User helper to unhook DevEnv integration.
-function _devenv_unhook() {
+# User helper to unhook Peninsula integration.
+function _peninsula_unhook() {
     bind -r '\C-x\C-z' 2>/dev/null || :
     bind '"\C-m": accept-line' 2>/dev/null || :
 
-    unset -f _devenv_accept_line 2>/dev/null || :
-    unset -f _devenv_unhook 2>/dev/null || :
-    unset _devenv_processing 2>/dev/null || :
+    unset -f _peninsula_accept_line 2>/dev/null || :
+    unset -f _peninsula_unhook 2>/dev/null || :
+    unset _peninsula_processing 2>/dev/null || :
 }
 
 # Bind our function to a hidden key combo
-bind -x '"\C-x\C-z": _devenv_accept_line'
+bind -x '"\C-x\C-z": _peninsula_accept_line'
 
 # Rebind Enter to: run our function, then accept the line
 # We use \C-j (linefeed) which triggers accept-line without recursion
